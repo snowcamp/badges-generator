@@ -1,0 +1,6 @@
+badge:
+  colors:
+    attendee: "#4dcc16"
+    speaker: "#f84ade"
+    sponsor: "#ffa733"
+    staff: "##ee0000"

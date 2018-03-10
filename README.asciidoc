@@ -1,0 +1,58 @@
+= Update the date of the badge
+
+== Generate the date
+
+. go to https://www.dafont.com/snowtop-caps.font?text=2019&psize=l
+. change the new date (eg 2019)
+. take a screenshot and crop to the selection
+. export as png
+. open with an image editor
+.. set white to transparency
+.. map black to white
+.. export as png (eg 2019.png)
+
+== Update the badge model
+
+Use the file `src/main/resources/template-badge.svg.mustache`
+
+. copy it into `template-badge.svg`
+. open it with a vector editor (eg Inkscape)
+. open the png file with the date (eg 2019.png) with the same editor
+. select the date of the badge template and remove it
+. copy / paste the new date and adjust the format
+. ensure the size of the svg is around A6 format (105x148mm)
+. save the file
+
+IMPORTANT: the bagde size must be around 105x148mm so that after the
+printing and the cutting, the badges have a size of around 100x140 mm
+
+== Backport the svg to the model
+
+`template-badge.svg.mustache` declares some mustache variables that will be
+injected by the https://mustache.github.io/[Mustache templating engine] but
+Inkscape remove some of them. To avoid this, you need to merge the svg file
+you've generated with the mustache template.
+
+To do so, you can use Intellij (compare the two files) or whatever diff
+editor.
+
+
+1. backport the changes from `template-badge.svg` to `template-badge.svg.mustache`
+2. save the file
+
+= Change the color of the bottom band
+
+Every year, we change the color of the bottom band for:
+
+* attendees
+* speakers
+* sponsors
+
+1. edit the config file `config.yaml`
+2. choose different html colors for them (don't touch the staff color)
+
+NOTE: we keep the same color for the staff.
+
+
+
+
