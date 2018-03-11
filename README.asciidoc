@@ -40,7 +40,9 @@ editor.
 1. backport the changes from `template-badge.svg` to `template-badge.svg.mustache`
 2. save the file
 
-= Change the color of the bottom band
+
+== Change the color of the bottom band
+
 
 Every year, we change the color of the bottom band for:
 
@@ -53,6 +55,6 @@ Every year, we change the color of the bottom band for:
 
 NOTE: we keep the same color for the staff.
 
+= Generate the badge
 
-
-
+Just run the main of the `App` class.
