@@ -14,15 +14,22 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.snowcamp.badges.attendees.Attendee.Type.*;
+import static io.snowcamp.badges.generators.SvgVariablesTemplate.*;
 import static java.util.Objects.requireNonNull;
 
 /**
  * @author ctranxuan
  */
 public final class SvgGenerator implements WithAttendeeFileName {
-    private final File workingDir;
+    private static final String SVG_BADGE_TEMPLATE = "template-badge.svg.mustache";
+    private static final String SVG_EXTENSION = ".svg";
 
-    public SvgGenerator(File aWorkingDir) {
+    private final File workingDir;
+    private final BadgeColors badgeColors;
+
+    public SvgGenerator(BadgeColors aBadgeColors, File aWorkingDir) {
+        badgeColors = requireNonNull(aBadgeColors);
         workingDir = requireNonNull(aWorkingDir);
     }
 
@@ -30,22 +37,22 @@ public final class SvgGenerator implements WithAttendeeFileName {
         requireNonNull(aAttendee);
         requireNonNull(aQrCodeFile);
 
-        String svgFileName = badgeFileName(aAttendee, ".svg");
+        String svgFileName = badgeFileName(aAttendee, SVG_EXTENSION);
         File svgFile = new File(workingDir, svgFileName);
 
         try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(svgFile))) {
             MustacheFactory mustacheFactory = new DefaultMustacheFactory();
-            Mustache mustache = mustacheFactory.compile("template-badge.svg.mustache");
+            Mustache mustache = mustacheFactory.compile(SVG_BADGE_TEMPLATE);
 
             Map<String, Object> scopes = new HashMap<>();
             if (!"TBD".equalsIgnoreCase(aAttendee.lastName())
                     && !"ACONIT".equalsIgnoreCase(aAttendee.lastName())) {
-                scopes.put("firstname", aAttendee.firstName());
-                scopes.put("lastname", aAttendee.lastName());
+                scopes.put(FIRST_NAME, aAttendee.firstName());
+                scopes.put(LAST_NAME, aAttendee.lastName());
 
             } else if ("ACONIT".equalsIgnoreCase(aAttendee.lastName())) {
-                scopes.put("firstname", "");
-                scopes.put("lastname", "ACONIT");
+                scopes.put(FIRST_NAME, "");
+                scopes.put(LAST_NAME, "ACONIT");
 
             }
 
@@ -56,23 +63,23 @@ public final class SvgGenerator implements WithAttendeeFileName {
 
             switch (aAttendee.type()) {
                 case ATTENDEE:
-                    scopes.put("color", "#FFCD00");
-                    scopes.put("type", "Attendee");
+                    scopes.put(COLOR, badgeColors.color(ATTENDEE));
+                    scopes.put(TYPE, "Attendee");
                     break;
 
                 case SPEAKER:
-                    scopes.put("color", "#4586FF");
-                    scopes.put("type", "Speaker");
+                    scopes.put(COLOR, badgeColors.color(SPEAKER));
+                    scopes.put(TYPE, "Speaker");
                     break;
 
                 case SPONSOR:
-                    scopes.put("color", "#ae74d8");
-                    scopes.put("type", "Sponsor");
+                    scopes.put(COLOR, badgeColors.color(SPONSOR));
+                    scopes.put(TYPE, "Sponsor");
                     break;
 
                 case STAFF:
-                    scopes.put("color", "#ee0000");
-                    scopes.put("type", "Staff");
+                    scopes.put(COLOR, badgeColors.color(STAFF));
+                    scopes.put(TYPE, "Staff");
                     break;
 
                 default:

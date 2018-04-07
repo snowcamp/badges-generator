@@ -1,3 +1,6 @@
+inputFile: participants_snowcamp-2018.csv
+outputDirectory: target
+
 badge:
   colors:
     attendee: "#4dcc16"

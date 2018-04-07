@@ -2,6 +2,7 @@ package io.snowcamp.badges.generators;
 
 import io.snowcamp.badges.attendees.Attendee;
 import io.snowcamp.badges.attendees.AttendeeFilters;
+import io.snowcamp.badges.configuration.BadgeProperties;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import org.apache.logging.log4j.Logger;
@@ -24,14 +25,15 @@ public final class BadgeGenerator {
     private final QrCodeGenerator qrCodeGenerator;
     private final AttendeeFilters attendeeFilters;
 
-    public BadgeGenerator(File workingDir) {
+    public BadgeGenerator(BadgeColors aBadgeColors, File workingDir) {
+        requireNonNull(aBadgeColors);
         requireNonNull(workingDir);
 
         File qrCodeDir = createSubWorkingDirIfNotExist(workingDir,"qrcodes");
         qrCodeGenerator = new QrCodeGenerator(qrCodeDir);
 
         File svgDir = createSubWorkingDirIfNotExist(workingDir,"svg");
-        svgGenerator = new SvgGenerator(svgDir);
+        svgGenerator = new SvgGenerator(aBadgeColors, svgDir);
         File badgesDir = createSubWorkingDirIfNotExist(workingDir,"badges");
 
         pdfGenerator = new PdfGenerator(badgesDir);
@@ -46,7 +48,6 @@ public final class BadgeGenerator {
                     .stream()
                     .filter(this::filterValidatedAttendee)
                     .filter(this::filterUniversitiesZeroPrice)
-                    .limit(1)
                     .peek(a -> LOGGER.info("starting to generate badge for {} {}, {}", a.firstName(), a.lastName(), a.ticket()))
                     .map(this::generateQrCode)
                     .map(this::generateSvgBadge)
