@@ -1,4 +1,4 @@
-inputFile: participants_snowcamp-2018.csv
+inputFile: participants_snowcamp-2019.csv
 outputDirectory: target
 
 badge:

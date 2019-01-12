@@ -54,11 +54,11 @@ public final class AttendeesCsvParser {
      private Attendee mapToAttendee(String[] aCsvRow) {
         requireNonNull(aCsvRow);
         return new Attendee.Builder()
-                .lastName(capitalizeName(aCsvRow[1]))
-                .firstName(capitalizeName(aCsvRow[2]))
-                .ticket(aCsvRow[4].replace("\"", "").trim())
-                .type(from(aCsvRow[5]))
-                .status(Attendee.Status.from(aCsvRow[7].trim()))
+                .lastName(capitalizeName(aCsvRow[4]))
+                .firstName(capitalizeName(aCsvRow[5]))
+                .ticket(aCsvRow[6].replace("\"", "").trim())
+                .type(from(aCsvRow[7]))
+                .status(Attendee.Status.from(aCsvRow[9].trim()))
                 .build();
     }
 

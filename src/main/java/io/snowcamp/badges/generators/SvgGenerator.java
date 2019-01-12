@@ -46,13 +46,9 @@ public final class SvgGenerator implements WithAttendeeFileName {
 
             Map<String, Object> scopes = new HashMap<>();
             if (!"TBD".equalsIgnoreCase(aAttendee.lastName())
-                    && !"ACONIT".equalsIgnoreCase(aAttendee.lastName())) {
+                    && !"SNOWCAMP".equalsIgnoreCase(aAttendee.lastName())) {
                 scopes.put(FIRST_NAME, aAttendee.firstName());
                 scopes.put(LAST_NAME, aAttendee.lastName());
-
-            } else if ("ACONIT".equalsIgnoreCase(aAttendee.lastName())) {
-                scopes.put(FIRST_NAME, "");
-                scopes.put(LAST_NAME, "ACONIT");
 
             }
 
