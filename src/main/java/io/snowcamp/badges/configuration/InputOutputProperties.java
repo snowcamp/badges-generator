@@ -13,6 +13,15 @@ import org.springframework.context.annotation.Configuration;
 public class InputOutputProperties {
     private String inputFile;
     private String outputDirectory;
+    private String univsFile;
+
+    public String getUnivsFile() {
+        return univsFile;
+    }
+
+    public void setUnivsFile(final String univsFile) {
+        this.univsFile = univsFile;
+    }
 
     public String getInputFile() {
         return inputFile;

@@ -12,11 +12,14 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static io.snowcamp.badges.attendees.Attendee.Type.*;
 import static io.snowcamp.badges.generators.SvgVariablesTemplate.*;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
 /**
  * @author ctranxuan
@@ -80,6 +83,14 @@ public final class SvgGenerator implements WithAttendeeFileName {
 
                 default:
                     throw new IllegalArgumentException("unsupported type " + aAttendee.type() + " for " + aAttendee);
+            }
+
+            final List<String> universities = aAttendee.universities();
+            if (!universities.isEmpty()) {
+                scopes.put(UNIVERSITY1, universities.get(0));
+                if (universities.size() > 1) { // FIXME refactor
+                    scopes.put(UNIVERSITY2, universities.get(1));
+                }
             }
 
             mustache.execute(writer, scopes);

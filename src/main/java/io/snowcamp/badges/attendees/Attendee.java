@@ -3,6 +3,8 @@ package io.snowcamp.badges.attendees;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.Map;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
@@ -14,10 +16,11 @@ import static java.util.Objects.requireNonNull;
 public final class Attendee {
     public enum Status {
         VALID("Validé"),
-        CANCEL("Annulé");
+        CANCEL("Annulé"),
+        INVALID("Invalide");
 
         private final static Map<String, Status> LOOKUP = HashMap.of(VALID.name, VALID,
-                CANCEL.name, CANCEL);
+                CANCEL.name, CANCEL, INVALID.name, INVALID);
 
         private final String name;
 
@@ -61,12 +64,12 @@ public final class Attendee {
     }
 
     public static class Builder {
-
         private String lastName;
         private String firstName;
         private Status status;
         private Type type;
         private String ticket;
+        private List<String> universities;
 
         public Builder lastName(String aLastName) {
             lastName = aLastName;
@@ -97,6 +100,10 @@ public final class Attendee {
             return new Attendee(this);
         }
 
+        public Builder universities(final List<String> universities) {
+            this.universities = universities;
+            return this;
+        }
     }
 
     private final String lastName;
@@ -104,6 +111,7 @@ public final class Attendee {
     private final Status status;
     private final Type type;
     private final String ticket;
+    private List<String> universities;
 
     private Attendee(Builder aBuilder) {
         lastName = requireNonNull(aBuilder.lastName);
@@ -111,6 +119,7 @@ public final class Attendee {
         status = requireNonNull(aBuilder.status);
         type = requireNonNull(aBuilder.type);
         ticket = requireNonNull(aBuilder.ticket);
+        universities = (aBuilder.universities == null ? Collections.emptyList() : aBuilder.universities);
     }
 
     public String lastName() {
@@ -133,6 +142,10 @@ public final class Attendee {
         return ticket;
     }
 
+    public List<String> universities() {
+        return universities;
+    }
+
     @Override
     public boolean equals(Object aO) {
         if (this == aO) return true;
@@ -147,18 +160,27 @@ public final class Attendee {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(lastName, firstName, status, type, ticket);
     }
 
     @Override
     public String toString() {
-        return "Attendee{" +
-                "lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", status=" + status +
-                ", type=" + type +
-                ", ticket='" + ticket + '\'' +
-                '}';
+        return "Attendee{"
+                + "lastName='"
+                + lastName
+                + '\''
+                + ", firstName='"
+                + firstName
+                + '\''
+                + ", status="
+                + status
+                + ", type="
+                + type
+                + ", ticket='"
+                + ticket
+                + '\''
+                + ", universities="
+                + universities
+                + '}';
     }
 }

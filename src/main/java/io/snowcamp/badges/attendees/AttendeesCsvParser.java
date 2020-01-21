@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static io.snowcamp.badges.attendees.Attendee.Type.from;
@@ -26,7 +28,7 @@ public final class AttendeesCsvParser {
 
     }
 
-    public List<Attendee> parse(File aFile) {
+    public List<Attendee> parse(File aFile, final Map<String, List<String>> univPerTickets) {
         requireNonNull(aFile);
         List<Attendee> result;
 
@@ -38,7 +40,7 @@ public final class AttendeesCsvParser {
             result = reader.readAll()
                     .stream()
                     .skip(1)
-                    .map(this::mapToAttendee)
+                    .map(row -> mapToAttendee(row, univPerTickets))
                     .collect(Collectors.toList())
                     ;
 
@@ -51,15 +53,17 @@ public final class AttendeesCsvParser {
     }
 
 
-     private Attendee mapToAttendee(String[] aCsvRow) {
+     private Attendee mapToAttendee(String[] aCsvRow, final Map<String, List<String>> univPerTickets) {
         requireNonNull(aCsvRow);
-        return new Attendee.Builder()
-                .lastName(capitalizeName(aCsvRow[4]))
-                .firstName(capitalizeName(aCsvRow[5]))
-                .ticket(aCsvRow[6].replace("\"", "").trim())
-                .type(from(aCsvRow[7]))
-                .status(Attendee.Status.from(aCsvRow[9].trim()))
-                .build();
+         final String ticket = aCsvRow[9].replace("\"", "").trim();
+         return new Attendee.Builder()
+                            .lastName(capitalizeName(aCsvRow[7]))
+                            .firstName(capitalizeName(aCsvRow[8]))
+                            .ticket(ticket)
+                            .type(from(aCsvRow[11]))
+                            .status(Attendee.Status.from(aCsvRow[13].trim()))
+                            .universities(univPerTickets.get(ticket))
+                            .build();
     }
 
     private String capitalizeName(final String aName) {
