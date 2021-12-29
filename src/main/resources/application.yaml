@@ -1,10 +1,10 @@
-inputFile: participants_snowcamp-2020.csv
-univsFile: participants_ateliers_snowcamp-2020.csv
+inputFile: participants_snowcamp-2022.csv
+univsFile: participants_ateliers_snowcamp-2022.csv
 outputDirectory: target
 
 badge:
   colors:
-    attendee: "#FFF20C"
-    speaker: "#A9B2FF"
-    sponsor: "#4DCA2C"
+    attendee: "#3FC633"
+    speaker: "#FEAF00"
+    sponsor: "#E51AE2"
     staff: "#ee0000"

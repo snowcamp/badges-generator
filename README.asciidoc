@@ -42,6 +42,7 @@ To do so, you can use Intellij (compare the two files) or whatever diff
 editor.
 
 1. backport the changes from `template-badge.svg` to `template-badge.svg.mustache`
+(use the `Compare files` feature of IntelliJ for instance. Don't copy absolute path references).
 2. save the file
 
 
@@ -61,10 +62,31 @@ NOTE: we keep the same color for the staff.
 
 == Generate the badge
 
-1. edit the config file `application.yaml` and change the value
-of `inputFile` to point to the csv file exported from Yurplan
-2. run the main of the `App` class
+. edit the config file `application.yaml` and change the value
+of `inputFile` to point to the csv files exported from Yurplan
+.. export `Participants` list from Yurplan:
+... in Yurplan, go to `Participants`
+... for `Filtre`, choose `Statut` -> `Valide`
+... click on the button `Filtrer ma recherche`
+... click on the button `Export et Téléchargement > Exporter tous les billets`
+... in `application.yaml`, declare as `inputFile` this exported file (absolute path
+or add the file in this project directory. *Beware to exclude it from git commits!*)
+.. export `Universities` list from Yurplan:
+... in Yurplan, go to `Activités > Gestion des activités`
+... click on `Filtres et recherche > Afficher plus de filtres`
+... choose `Statut` -> `Valide`
+... click on the button `Rechercher`
+... click on the button `Export et Téléchargement > Exporter le listing complet`
+... in `application.yaml`, declare as `univsFile` this exported file (absolute path
+or add the file in this project directory. *Beware to exclude it from git commits!*)
+. run the main of the `App` class
 
 NOTE: values that enables to distinguish between sponsors, speakers, staff
 and attendees must start with respectively: `Sponsor stand`, `Speaker` and
 `Staff`
+
+NOTE: the column order of Yurplan CSV files may change from one year to another.
+You may need to update the code (`AttendeeCsvParser` and `UnivCsvParser`)
+to update the column number to parse.
+
+NOTE: check that you got the correct number of badges.

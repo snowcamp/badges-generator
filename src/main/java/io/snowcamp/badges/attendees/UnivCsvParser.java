@@ -61,6 +61,7 @@ public class UnivCsvParser {
 
     private Pair<String, String> mapToTicketUnivPair(final String[] csvRow) {
         requireNonNull(csvRow);
+        // Pair.of("ticket number", "name of the University")
         return Pair.of(csvRow[5].replace("\"", "").trim(), csvRow[0]);
     }
 }

@@ -55,13 +55,14 @@ public final class AttendeesCsvParser {
 
      private Attendee mapToAttendee(String[] aCsvRow, final Map<String, List<String>> univPerTickets) {
         requireNonNull(aCsvRow);
+         // column "Billet"
          final String ticket = aCsvRow[9].replace("\"", "").trim();
          return new Attendee.Builder()
                             .lastName(capitalizeName(aCsvRow[7]))
                             .firstName(capitalizeName(aCsvRow[8]))
                             .ticket(ticket)
-                            .type(from(aCsvRow[11]))
-                            .status(Attendee.Status.from(aCsvRow[13].trim()))
+                            .type(from(aCsvRow[11])) // column "Tarif"
+                            .status(Attendee.Status.from(aCsvRow[14].trim())) // column "Validité du billet"
                             .universities(univPerTickets.get(ticket))
                             .build();
     }
