@@ -45,8 +45,8 @@ public final class Attendee {
             requireNonNull(aType);
             Type result;
 
-            if (aType.startsWith("Sponsor")) {
-                result = SPONSOR;
+            if (aType.startsWith("Sponsor stand")) {
+                result = SPONSOR; // Only sponsor STAND!
 
             } else if (aType.startsWith("Speaker")) {
                 result = SPEAKER;
